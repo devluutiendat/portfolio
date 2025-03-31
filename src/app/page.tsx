@@ -1,5 +1,9 @@
-import ThemeSwitch from "@/components/Toggle-theme";
+"use client";
+import dynamic from "next/dynamic";
 import Image from "next/image";
+const ThemeSwitch = dynamic(() => import("@/components/Toggle-theme"), {
+  ssr: true,
+});
 
 export default function Home() {
   return (
