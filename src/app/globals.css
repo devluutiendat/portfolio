@@ -6,6 +6,15 @@
   --foreground: #171717;
 }
 
+@theme {
+  
+  --color-backgroundCat: #1a1e2d;
+  --color-green: #a5ea9b;
+  --color-pink: #ff61d8;
+  --color-blue: #569cfa;
+  --color-orange: #ffcc81;
+  --color-cyan: #7ed1e2;
+}
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
