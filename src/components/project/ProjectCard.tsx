@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import projects from "@/data/project";
-import Link from "../ui/Link";
+import Link from "@/components/ui/Link";
 
 const ProjectCard = () => {
   return (
@@ -25,7 +25,11 @@ const ProjectCard = () => {
             {item.tags.join(", ")}
           </p>
           <div className="flex items-center justify-between mt-4">
-            <Link href={item.url} className="text-blue-400 hover:underline">
+            <Link
+              href={item.url}
+              newTab
+              className="text-blue-400 hover:underline"
+            >
               View Project →
             </Link>
           </div>

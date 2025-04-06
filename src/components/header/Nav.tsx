@@ -11,7 +11,7 @@ const Nav = () => {
       {headerNavLinks.map((link) => (
         <Link
           key={link.title}
-          href={link.href}
+          href={`#${link.href}`}
           className="font-medium transition-colors hover:text-primary dark:hover:text-primary"
         >
           {link.title}

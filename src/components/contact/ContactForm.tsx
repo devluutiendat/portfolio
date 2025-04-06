@@ -55,9 +55,9 @@ export default function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="p-6 sm:p-8 space-y-6 max-w-2xl w-full shadow-lg rounded-lg bg-backgroundCat border border-cyan mx-auto"
+      className="p-6 sm:p-8 space-y-6 max-w-2xl w-full shadow-lg rounded-lg dark:bg-backgroundCat border dark:border-cyan mx-auto"
     >
-      <h2 className="text-2xl sm:text-3xl font-bold text-orange text-center">
+      <h2 className="text-2xl sm:text-3xl font-bold text-black dark:text-orange text-center">
         Leave your information
       </h2>
 
@@ -66,7 +66,7 @@ export default function ContactForm() {
         <div className="space-y-2">
           <label
             htmlFor="name"
-            className="block font-semibold text-sm text-cyan"
+            className="block font-semibold text-sm dark:text-cyan text-black"
           >
             Name
           </label>
@@ -84,7 +84,7 @@ export default function ContactForm() {
         <div className="space-y-2">
           <label
             htmlFor="email"
-            className="block font-semibold text-sm text-cyan"
+            className="block font-semibold text-sm dark:text-cyan text-black"
           >
             Email
           </label>
@@ -105,7 +105,7 @@ export default function ContactForm() {
         <div className="space-y-2">
           <label
             htmlFor="phone"
-            className="block font-semibold text-sm text-cyan"
+            className="block font-semibold text-sm dark:text-cyan text-black"
           >
             Phone
           </label>
@@ -124,7 +124,7 @@ export default function ContactForm() {
         <div className="space-y-2">
           <label
             htmlFor="location"
-            className="block font-semibold text-sm text-cyan"
+            className="block font-semibold text-sm dark:text-cyan text-black"
           >
             Location
           </label>
@@ -141,7 +141,7 @@ export default function ContactForm() {
       <div className="space-y-2">
         <label
           htmlFor="message"
-          className="block font-semibold text-sm text-cyan"
+          className="block font-semibold text-sm dark:text-cyan text-black"
         >
           Message
         </label>
