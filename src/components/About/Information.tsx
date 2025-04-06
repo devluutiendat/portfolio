@@ -6,7 +6,7 @@ import BongoCat from "./bongoCat";
 
 export default function Information() {
   return (
-    <main className="min-h-screen p-4 md:p-8 lg:p-12 flex flex-col md:flex-row gap-8">
+    <main className="gap-16 p-4 md:p-8 lg:p-12 flex flex-col md:flex-row">
       <BongoCat />
 
       <div className="flex flex-col space-y-4 flex-1">
@@ -27,7 +27,7 @@ export default function Information() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+        <div className="grid grid-cols-2 gap-4 pt-4">
           <Link
             href="/writings"
             className="flex items-center text-orange gap-2 p-3 rounded-md transition-all border border-orange hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-orange"

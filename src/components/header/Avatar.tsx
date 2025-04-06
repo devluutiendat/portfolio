@@ -5,7 +5,7 @@ import React from "react";
 const Avatar: React.FC = () => {
   return (
     <div className="flex items-center space-x-3">
-      <div className="relative h-10 w-10 overflow-hidden rounded-full sm:h-12 sm:w-12">
+      <div className="relative h-10 w-10 overflow-hidden  sm:h-12 sm:w-12">
         <Image
           src={siteMetadata.avatar}
           alt="Profile avatar"
