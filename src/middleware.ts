@@ -2,10 +2,11 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { auth } from "@/lib/auth";
 
-export default async function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const session = await auth();
   const { pathname } = request.nextUrl;
 
+  console.log("session middleware" + session);
     // List of paths that don't require authentication
   const publicPaths = [
     '/auth/signin',
