@@ -117,7 +117,7 @@ const welcome = `<!DOCTYPE html>
       <div class="contact-info">
         <p><strong>Thông tin liên hệ:</strong></p>
         <p>📧 Email: <a href=${siteMetadata.email}>${siteMetadata.email}</a></p>
-        <p>📘 Facebook: <a href=${siteMetadata.Facebook}>/yourprofile</a></p>
+        <p>📘 Facebook: <a href=${siteMetadata.Facebook}>${siteMetadata.Facebook}</a></p>
         <p>📞 Điện thoại: ${siteMetadata.phone}</p>
       </div>
       

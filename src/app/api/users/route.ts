@@ -1,26 +1,25 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/DBconnect";
 import User from "@/models/user";
-import { auth } from "@/lib/auth";
 import { sendMail } from "@/lib/send-email";
 import welcome from "@/components/emailTemplate/Welcome";
+import { NextApiRequest } from "next";
 
-export async function POST() {
+export async function POST(req:NextApiRequest) {
   try {
     await dbConnect();
-    const session = await auth();
 
-    if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!req.body) {
+      return NextResponse.json({ error: "No data" }, { status: 400 });
     }
 
-    const existingUser = await User.findOne({ email: session.user.email });
+    const existingUser = await User.findOne({ email: req.body.user.email });
     if (existingUser) {
       setTimeout(() => {
         
-        session?.user?.email &&
+        req.body?.user?.email &&
            sendMail({
-            sendTo: session.user.email,
+            sendTo: req.body.user.email,
             subject: "Welcome back to My Portfolio",
             html: welcome,
           });
@@ -28,7 +27,7 @@ export async function POST() {
       
       // Update login history
       await User.updateOne(
-        { email: session.user.email },
+        { email: req.body.user.email },
         { $push: { loginHistory: new Date() } }
       );
       return NextResponse.json(
@@ -38,13 +37,13 @@ export async function POST() {
     } else {
       // Create new user with initial login history
       const user = await User.create({
-        ...session.user,
+        ...req.body.user,
         loginHistory: [new Date()],
       });
       setTimeout(() => {     
-        session?.user?.email &&
+        req.body?.user?.email &&
           sendMail({
-            sendTo: session.user.email,
+            sendTo: req.body.user.email,
             subject: "Welcome to My Portfolio",
             html: welcome,
  

@@ -2,7 +2,6 @@ import About from "@/components/about";
 import Contact from "@/components/contact";
 import Header from "@/components/header";
 import Project from "@/components/project";
-import SetUser from "@/components/SetUser";
 
 export default function Home() {
   return (
@@ -12,7 +11,6 @@ export default function Home() {
         <About />
         <Project />
         <Contact />
-        <SetUser />
       </div>
     </div>
   );
