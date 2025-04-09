@@ -23,6 +23,7 @@ import Facebook from "next-auth/providers/facebook";
     "prisma",
     "typeorm",
   ],
+  domain:"http://localhost:3000",
   born:"Nam Định",
   fullName: 'luu Tien dat',
   headerTitle: "dat's Blog",

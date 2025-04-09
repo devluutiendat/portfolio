@@ -6,7 +6,6 @@ export async function middleware(request: NextRequest) {
   const session = await auth();
   const { pathname } = request.nextUrl;
 
-  console.log("session middleware" + session);
     // List of paths that don't require authentication
   const publicPaths = [
     '/auth/signin',

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { contact } from "@/lib/send-email";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
@@ -13,24 +14,25 @@ const formSchema = z.object({
     .regex(/^\+?[0-9\s\-()]{7,}$/, {
       message: "Please enter a valid phone number",
     })
-    .optional()
     .or(z.literal("")),
   message: z
     .string()
     .min(10, { message: "Message must be at least 10 characters" }),
-  location: z.string().optional(),
+  location: z.string(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 export default function ContactForm() {
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
+    watch,
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,11 +44,24 @@ export default function ContactForm() {
     },
   });
 
+  useEffect(() => {
+    const subscription = watch(() => {
+      if (isSubmitSuccessful) setIsSubmitSuccessful(false);
+      if (submitError) setSubmitError("");
+    });
+    console.log("this use effect");
+    return () => subscription.unsubscribe();
+  }, [watch, isSubmitSuccessful, submitError]);
+
   const onSubmit = async (data: FormValues) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Form submitted:", data);
-    reset();
-    setIsSubmitSuccessful(true);
+    try {
+      await contact(data);
+      reset();
+      setIsSubmitSuccessful(true);
+    } catch (error) {
+      console.error("Failed to send contact form:", error);
+      setSubmitError("Something went wrong. Please try again later.");
+    }
   };
 
   const inputBase =
@@ -72,11 +87,15 @@ export default function ContactForm() {
           </label>
           <input
             id="name"
+            aria-invalid={!!errors.name}
+            aria-describedby="name-error"
             {...register("name")}
             className={`${inputBase} ${errors.name ? "border-b-red-500" : ""}`}
           />
           {errors.name && (
-            <p className="text-sm text-red-500">{errors.name.message}</p>
+            <p id="name-error" className="text-sm text-red-500">
+              {errors.name.message}
+            </p>
           )}
         </div>
 
@@ -91,11 +110,15 @@ export default function ContactForm() {
           <input
             id="email"
             type="email"
+            aria-invalid={!!errors.email}
+            aria-describedby="email-error"
             {...register("email")}
             className={`${inputBase} ${errors.email ? "border-b-red-500" : ""}`}
           />
           {errors.email && (
-            <p className="text-sm text-red-500">{errors.email.message}</p>
+            <p id="email-error" className="text-sm text-red-500">
+              {errors.email.message}
+            </p>
           )}
         </div>
       </div>
@@ -107,16 +130,20 @@ export default function ContactForm() {
             htmlFor="phone"
             className="block font-semibold text-sm dark:text-cyan text-black"
           >
-            Phone
+            Phone <span className="text-gray-500">(optional)</span>
           </label>
           <input
             id="phone"
             placeholder="+1234567890"
+            aria-invalid={!!errors.phone}
+            aria-describedby="phone-error"
             {...register("phone")}
             className={`${inputBase} ${errors.phone ? "border-b-red-500" : ""}`}
           />
           {errors.phone && (
-            <p className="text-sm text-red-500">{errors.phone.message}</p>
+            <p id="phone-error" className="text-sm text-red-500">
+              {errors.phone.message}
+            </p>
           )}
         </div>
 
@@ -149,21 +176,34 @@ export default function ContactForm() {
           id="message"
           rows={4}
           placeholder="Your message here..."
+          aria-invalid={!!errors.message}
+          aria-describedby="message-error"
           {...register("message")}
           className={`${inputBase} ${errors.message ? "border-b-red-500" : ""}`}
         />
         {errors.message && (
-          <p className="text-sm text-red-500">{errors.message.message}</p>
+          <p id="message-error" className="text-sm text-red-500">
+            {errors.message.message}
+          </p>
         )}
       </div>
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full bg-cyan text-white font-medium rounded-lg px-4 py-3 mt-4 hover:bg-cyan/80 transition disabled:opacity-50"
-      >
-        {isSubmitting || isSubmitSuccessful ? "Sending..." : "Send Message"}
-      </button>
+      {!isSubmitSuccessful ? (
+        <button
+          type="submit"
+          disabled={isSubmitting || isSubmitSuccessful}
+          className="w-full bg-cyan text-white font-medium rounded-lg px-4 py-3 mt-4 hover:bg-cyan/80 transition disabled:opacity-50"
+        >
+          {isSubmitting || isSubmitSuccessful ? "Sending..." : "Send Message"}
+        </button>
+      ) : (
+        <p className="text-green-500 text-center font-medium">
+          Message sent successfully!
+        </p>
+      )}
+      {submitError && (
+        <p className="text-red-500 text-center font-medium">{submitError}</p>
+      )}
     </form>
   );
 }
