@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { contact } from "@/lib/send-email";
+import { useFormStatus } from "react-dom";
+import { useActionState } from "react";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
@@ -23,53 +24,53 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
+async function formAction(prevState: any, formData: FormData) {
+  try {
+    const data = Object.fromEntries(formData) as FormValues;
+    await contact(data);
+    return { success: true, error: null };
+  } catch (error) {
+    console.error("Failed to send contact form:", error);
+    return {
+      success: false,
+      error: "Something went wrong. Please try again later.",
+    };
+  }
+}
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="w-full bg-cyan text-white font-medium rounded-lg px-4 py-3 mt-4 hover:bg-cyan/80 transition disabled:opacity-50"
+    >
+      {pending ? "Sending..." : "Send Message"}
+    </button>
+  );
+}
+
 export default function ContactForm() {
-  const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false);
-  const [submitError, setSubmitError] = useState("");
+  const [state, formActionDispatch] = useActionState(formAction, {
+    success: false,
+    error: null,
+  });
 
   const {
     register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-    watch,
+    formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      message: "",
-      location: "",
-    },
   });
-
-  useEffect(() => {
-    const subscription = watch(() => {
-      if (isSubmitSuccessful) setIsSubmitSuccessful(false);
-      if (submitError) setSubmitError("");
-    });
-    console.log("this use effect");
-    return () => subscription.unsubscribe();
-  }, [watch, isSubmitSuccessful, submitError]);
-
-  const onSubmit = async (data: FormValues) => {
-    try {
-      await contact(data);
-      reset();
-      setIsSubmitSuccessful(true);
-    } catch (error) {
-      console.error("Failed to send contact form:", error);
-      setSubmitError("Something went wrong. Please try again later.");
-    }
-  };
 
   const inputBase =
     "w-full px-4 py-2 border-b border-cyan bg-transparent focus-visible:ring-green focus-visible:ring-2 focus-visible:outline-none transition";
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      action={formActionDispatch}
       className="p-6 sm:p-8 space-y-6 max-w-2xl w-full shadow-lg rounded-lg dark:bg-backgroundCat border dark:border-cyan mx-auto"
     >
       <h2 className="text-2xl sm:text-3xl font-bold text-black dark:text-orange text-center">
@@ -130,7 +131,7 @@ export default function ContactForm() {
             htmlFor="phone"
             className="block font-semibold text-sm dark:text-cyan text-black"
           >
-            Phone <span className="text-gray-500">(optional)</span>
+            Phone
           </label>
           <input
             id="phone"
@@ -188,21 +189,15 @@ export default function ContactForm() {
         )}
       </div>
 
-      {!isSubmitSuccessful ? (
-        <button
-          type="submit"
-          disabled={isSubmitting || isSubmitSuccessful}
-          className="w-full bg-cyan text-white font-medium rounded-lg px-4 py-3 mt-4 hover:bg-cyan/80 transition disabled:opacity-50"
-        >
-          {isSubmitting || isSubmitSuccessful ? "Sending..." : "Send Message"}
-        </button>
-      ) : (
+      <SubmitButton />
+
+      {state.success && (
         <p className="text-green-500 text-center font-medium">
           Message sent successfully!
         </p>
       )}
-      {submitError && (
-        <p className="text-red-500 text-center font-medium">{submitError}</p>
+      {state.error && (
+        <p className="text-red-500 text-center font-medium">{state.error}</p>
       )}
     </form>
   );

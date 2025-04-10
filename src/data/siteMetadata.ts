@@ -1,4 +1,3 @@
-import Facebook from "next-auth/providers/facebook";
 
  const siteMetadata = {
   title: "dat's profile",
