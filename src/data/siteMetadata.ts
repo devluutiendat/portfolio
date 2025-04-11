@@ -22,7 +22,7 @@
     "prisma",
     "typeorm",
   ],
-  domain:"http://localhost:3000",
+  siteUrl:"http://localhost:3000",
   born:"Nam Định",
   fullName: 'luu Tien dat',
   headerTitle: "dat's Blog",
@@ -34,14 +34,25 @@
   Facebook:"http://facebook.com/luu.tien.at.374555",
   phone: '325933782',
   socialAccounts: {
+    twitter : 'dat',
     github: 'dat',
     linkedin: 'dat',
     facebook: 'dat.dev',
   },
+  socialBanner : '/avatar.svg',
+  locale: 'en-US',
+  keywords:[
+     'Web Developer',
+    'Portfolio',
+    'Next.js',
+    'React',
+    'TypeScript',
+    'Frontend Developer',
+    'Vietnam Developer'
+  ],
   search: {
     provider: 'kbar',
     kbarConfig: {
-      // path to load documents to search
       searchDocumentsPath: `${process.env.BASE_PATH || ''}/search.json`,
     },
   },
