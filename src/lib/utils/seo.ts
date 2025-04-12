@@ -78,7 +78,6 @@ export function genPageMetadata({
     },
     // Additional metadata
     applicationName: siteMetadata.title,
-    themeColor: '#ffffff',
     manifest: '/manifest.json',
     formatDetection: {
       telephone: false,
