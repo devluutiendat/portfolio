@@ -112,7 +112,7 @@ const welcome = `<!DOCTYPE html>
         <p>Hy vọng bạn sẽ tìm thấy điều gì đó thú vị hoặc hữu ích tại đây.</p>
       </div>
       
-      <a href=${siteMetadata.domain} class="button">Truy cập Portfolio</a>
+      <a href=${siteMetadata.siteUrl} class="button">Truy cập Portfolio</a>
       
       <div class="contact-info">
         <p><strong>Thông tin liên hệ:</strong></p>

@@ -4,7 +4,7 @@ import Link from "@/components/ui/Link";
 
 const ProjectCard = () => {
   return (
-    <ul className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 text-black dark:text-white">
+    <ul className="grid grid-cols-1 md:grid-cols-2 gap-8 md:p-6 p-2 text-black dark:text-white">
       {projects.map((item, index) => (
         <li
           key={index}
@@ -15,7 +15,7 @@ const ProjectCard = () => {
             alt={item.title}
             width={500}
             height={300}
-            className="rounded-lg"
+            className="rounded-lg object-center"
           />
           <h3 className="text-xl font-bold mt-4">{item.title}</h3>
           <p className="text-gray-400 mt-2">{item.description}</p>

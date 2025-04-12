@@ -28,7 +28,7 @@ const BongoCat = () => {
     const notes = containerRef.current.querySelectorAll(".note");
 
     // Clone notes
-    for (let note of notes) {
+    for (const note of notes) {
       note?.parentElement?.appendChild(note.cloneNode(true));
       note?.parentElement?.appendChild(note.cloneNode(true));
     }
@@ -54,10 +54,7 @@ const BongoCat = () => {
       repeat: -1,
     });
 
-    const noteElFn: Function = gsap.utils.pipe(
-      gsap.utils.toArray,
-      gsap.utils.shuffle
-    );
+    const noteElFn = gsap.utils.pipe(gsap.utils.toArray, gsap.utils.shuffle);
     const noteEls: HTMLElement[] = noteElFn(music.note);
 
     const numNotes = noteEls.length / 4;
@@ -144,7 +141,7 @@ const BongoCat = () => {
 
   return (
     <div
-      className="bg-transparent overflow-hidden h-auto flex items-center justify-center w-full md:w-[350px] max-h-[450px] rounded-lg shrink-0"
+      className="bg-transparent overflow-hidden h-auto flex items-center justify-center  md:w-[350px] max-h-[450px] rounded-lg shrink-0"
       ref={containerRef}
     >
       <svg

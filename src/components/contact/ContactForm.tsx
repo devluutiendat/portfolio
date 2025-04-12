@@ -7,6 +7,10 @@ import { contact } from "@/lib/send-email";
 import { useFormStatus } from "react-dom";
 import { useActionState } from "react";
 
+interface FormState {
+  success: boolean;
+  error: string | null;
+}
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -24,7 +28,7 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-async function formAction(prevState: any, formData: FormData) {
+async function formAction(prevState: FormState, formData: FormData) {
   try {
     const data = Object.fromEntries(formData) as FormValues;
     await contact(data);

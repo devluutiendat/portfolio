@@ -1,42 +1,50 @@
-import mongoose from "mongoose";
-declare global {
-  var mongoose: any; // This must be a `var` and not a `let / const`
+import mongoose, { Mongoose } from "mongoose";
+
+// Define the type for our cached connection
+interface MongooseCache {
+  conn: Mongoose | null;
+  promise: Promise<Mongoose> | null;
 }
 
-let cached = global.mongoose;
+// Use a module-level variable with proper typing
+let mongooseCache: MongooseCache = {
+  conn: null,
+  promise: null
+};
 
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
-}
-
-async function dbConnect() {
-  const MONGODB_URI = process.env.MONGODB_URI!;
+async function dbConnect(): Promise<Mongoose> {
+  const MONGODB_URI = process.env.MONGODB_URI;
 
   if (!MONGODB_URI) {
     throw new Error(
-      "Please define the MONGODB_URI environment variable inside .env.local",
+      "Please define the MONGODB_URI environment variable inside .env.local"
     );
   }
 
-  if (cached.conn) {
-    return cached.conn;
+  // Return cached connection if available
+  if (mongooseCache.conn) {
+    return mongooseCache.conn;
   }
-  if (!cached.promise) {
-    const opts = {
+
+  // Create new connection if no promise exists
+  if (!mongooseCache.promise) {
+    const opts: mongoose.ConnectOptions = {
       bufferCommands: false,
     };
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      return mongoose;
-    });
+
+    mongooseCache.promise = mongoose.connect(MONGODB_URI, opts);
   }
+
   try {
-    cached.conn = await cached.promise;
+    // Await the connection promise
+    mongooseCache.conn = await mongooseCache.promise;
   } catch (e) {
-    cached.promise = null;
+    // Reset promise on error to allow retries
+    mongooseCache.promise = null;
     throw e;
   }
 
-  return cached.conn;
+  return mongooseCache.conn;
 }
 
 export default dbConnect;

@@ -23,7 +23,7 @@ export default function Information() {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 pt-4">
+      <div className="grid grid-cols-2 gap-4 pt-4 sm:text-xl text-sm">
         <Link
           href="/writings"
           className="flex items-center text-orange gap-2 p-3 rounded-md transition-all border border-orange hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-orange"

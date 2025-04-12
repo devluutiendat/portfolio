@@ -4,9 +4,11 @@ import User from "@/models/user";
 import { sendMail } from "@/lib/send-email";
 import welcome from "@/components/emailTemplate/Welcome";
 import { NextApiRequest } from "next";
+import { cookies } from "next/headers";
 
-export async function POST(req:NextApiRequest) {
+export async function POST(req: NextApiRequest) {
   try {
+    await cookies();
     await dbConnect();
 
     if (!req.body) {
@@ -16,15 +18,16 @@ export async function POST(req:NextApiRequest) {
     const existingUser = await User.findOne({ email: req.body.user.email });
     if (existingUser) {
       setTimeout(() => {
-        
-        req.body?.user?.email &&
-           sendMail({
+        if (req.body?.user?.email) {
+          sendMail({
+            
             sendTo: req.body.user.email,
             subject: "Welcome back to My Portfolio",
             html: welcome,
           });
-      }, 1000 * 60 * 5)
-      
+        }
+      }, 1000 * 60 * 5);
+
       // Update login history
       await User.updateOne(
         { email: req.body.user.email },
@@ -40,15 +43,15 @@ export async function POST(req:NextApiRequest) {
         ...req.body.user,
         loginHistory: [new Date()],
       });
-      setTimeout(() => {     
-        req.body?.user?.email &&
+      setTimeout(() => {
+        if (req.body?.user?.email) {
           sendMail({
             sendTo: req.body.user.email,
             subject: "Welcome to My Portfolio",
             html: welcome,
- 
           });
-      }, 1000 * 60 * 5)
+        }
+      }, 1000 * 60 * 5);
 
       return NextResponse.json({ success: true, data: user }, { status: 201 });
     }

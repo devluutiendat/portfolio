@@ -49,31 +49,29 @@ const NavMobile: React.FC = () => {
 
       {/* Mobile nav overlay */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 bg-gray-800/50 backdrop-blur-sm dark:bg-gray-900/80">
-          <div className="fixed inset-y-0 right-0 z-50 w-full max-w-xs bg-white p-6 shadow-xl dark:bg-gray-800 sm:max-w-sm">
-            <div className="flex items-center justify-between">
-              <span className="text-lg font-medium">Menu</span>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="rounded-md p-1 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-
-            <nav className="mt-8 flex flex-col space-y-6">
-              {headerNavLinks.map((link) => (
-                <Link
-                  key={link.title}
-                  href={link.href}
-                  className="text-lg font-medium text-gray-900 transition-colors hover:text-primary dark:text-gray-100 dark:hover:text-primary"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.title}
-                </Link>
-              ))}
-            </nav>
+        <div className="fixed h-screen space-y-6 inset-y-0 right-0 z-50 w-full max-w-xs bg-white p-6 shadow-xl dark:bg-gray-800 sm:max-w-sm">
+          <div className="flex items-center justify-between">
+            <span className="text-lg font-medium">Menu</span>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="rounded-md p-1 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
+            >
+              <X className="h-5 w-5" />
+            </button>
           </div>
+
+          <nav className="mt-8 flex flex-col space-y-6">
+            {headerNavLinks.map((link) => (
+              <Link
+                key={link.title}
+                href={`#${link.href}`}
+                className="text-lg font-medium text-gray-900 transition-colors hover:text-primary dark:text-gray-100 dark:hover:text-primary"
+                onClick={() => setIsOpen(false)}
+              >
+                {link.title}
+              </Link>
+            ))}
+          </nav>
         </div>
       )}
     </div>
