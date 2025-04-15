@@ -11,6 +11,7 @@ export async function middleware(request: NextRequest) {
     '/auth/signin',
     '/auth/register', // if you have registration
     '/api/auth', // NextAuth.js API routes
+    '/api/user'
   ];
   //  Skip middleware for public paths
   if (publicPaths.some(path => pathname.startsWith(path))) {

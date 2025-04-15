@@ -7,7 +7,7 @@ interface MongooseCache {
 }
 
 // Use a module-level variable with proper typing
-let mongooseCache: MongooseCache = {
+const mongooseCache: MongooseCache = {
   conn: null,
   promise: null
 };

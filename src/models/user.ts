@@ -29,6 +29,10 @@
         type: Date,
       },
     ],
+    lastSent:{
+      type:   Date,
+      default: null,
+    }
   });
 
   // Middleware to update lastUpdated automatically
