@@ -12,6 +12,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         console.error("Error during signIn callback:", err);
       }
       return true;
-    },
+    },  
   },
 });
