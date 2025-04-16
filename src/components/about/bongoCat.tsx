@@ -131,7 +131,7 @@ const BongoCat = () => {
 
   return (
     <div
-      className="bg-transparent overflow-hidden h-auto flex items-center justify-center  md:w-[350px] max-h-[450px] rounded-lg shrink-0"
+      className="bg-transparent overflow-hidden h-auto flex items-center justify-center  lg:w-[350px] lg:max-h-[450px] rounded-lg shrink-0"
       ref={containerRef}
     >
       <svg

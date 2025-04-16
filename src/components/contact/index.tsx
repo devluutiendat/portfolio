@@ -27,6 +27,7 @@ export default function Contact() {
         const diffInMs = now - x.getTime();
         const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
         setLastSent(diffInDays);
+        console.log(process.env.AUTH_URL);
       } catch (err) {
         console.error("Failed to fetch last sent:", err);
       }

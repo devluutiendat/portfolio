@@ -1,3 +1,4 @@
+"use client";
 import siteMetadata from "@/data/siteMetadata";
 import { User, Goal, Phone, Wrench } from "lucide-react";
 import Link from "../ui/Link";
