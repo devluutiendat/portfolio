@@ -73,7 +73,7 @@ export function genPageMetadata({
     },
     icons: {
       icon: '/favicon.ico',
-      shortcut: '/favicon-16x16.svg',
+      shortcut: '/favicon-16x16.png',
       apple: '/apple-touch-icon.png',
     },
     // Additional metadata

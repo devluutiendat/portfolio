@@ -21,26 +21,19 @@ const BongoCat = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const colors = ["#a5ea9b", "#ff61d8", "#569cfa", "#ffcc81", "#7ed1e2"];
     if (!containerRef.current) return;
 
-    const ID = "bongo-cat";
-    const s = (selector: string) => `#${ID} ${selector}`;
-    const notes = containerRef.current.querySelectorAll(".note");
+    const s = (selector: string) => `#bongo-cat ${selector}`;
+    const notes = containerRef.current.getElementsByTagName(".note");
 
     // Clone notes
     for (const note of notes) {
-      note?.parentElement?.appendChild(note.cloneNode(true));
-      note?.parentElement?.appendChild(note.cloneNode(true));
+      note?.parentNode?.appendChild(note.cloneNode(true));
+      note?.parentNode?.appendChild(note.cloneNode(true));
     }
 
     const music = { note: s(".music .note") };
-    const style = getComputedStyle(document.documentElement);
-
-    const green = style.getPropertyValue("--green");
-    const pink = style.getPropertyValue("--pink");
-    const blue = style.getPropertyValue("--blue");
-    const orange = style.getPropertyValue("--orange");
-    const cyan = style.getPropertyValue("--cyan");
 
     gsap.set(music.note, { scale: 0, autoAlpha: 1 });
 
@@ -62,10 +55,7 @@ const BongoCat = () => {
     const notesG2 = noteEls.splice(0, numNotes);
     const notesG3 = noteEls;
 
-    const colorizer = gsap.utils.random(
-      [green, pink, blue, orange, cyan],
-      true
-    );
+    const colorizer = gsap.utils.random(colors, true);
     const rotator = gsap.utils.random(-50, 50, 1, true);
     const dir = (amt: number) => `${gsap.utils.random(["-", "+"])}=${amt}`;
 

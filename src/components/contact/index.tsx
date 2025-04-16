@@ -1,16 +1,17 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import ThankYou from "./ThankYou";
 import Loading from "@/app/loading";
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 
-export const revalidate = 36; // revalidate at most every hour
-
 const ContactForm = dynamic(() => import("./ContactForm"), {
   loading: () => <Loading />,
   ssr: false,
+});
+
+const ThankYou = dynamic(() => import("./ThankYou"), {
+  loading: () => <Loading />,
 });
 
 export default function Contact() {
@@ -26,7 +27,6 @@ export default function Contact() {
         const diffInMs = now - x.getTime();
         const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
         setLastSent(diffInDays);
-        console.log("Fetched lastSent:", x);
       } catch (err) {
         console.error("Failed to fetch last sent:", err);
       }

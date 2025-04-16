@@ -1,8 +1,13 @@
-import React from "react";
+"use client";
+import Loading from "@/app/loading";
 import Greeting from "./Greeting";
+import dynamic from "next/dynamic";
 import Information from "./Information";
-import BongoCat from "./bongoCat";
 
+const BongoCat = dynamic(() => import("./bongoCat"), {
+  ssr: false,
+  loading: () => <Loading />,
+});
 const About = () => {
   return (
     <section id="about">
