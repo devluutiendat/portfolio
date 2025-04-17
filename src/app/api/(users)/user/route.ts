@@ -5,23 +5,22 @@ import { sendMail } from "@/lib/send-email";
 import welcome from "@/components/emailTemplate/Welcome";
 import { auth } from "@/lib/auth";
 
-export async function POST(req:Request) {
+export async function POST(req: Request) {
   try {
-    
     if (!req.body) {
       return NextResponse.json({ error: "No data" }, { status: 400 });
     }
     const userLogin = await req.json();
-    const email =  userLogin.email; 
+    const email = userLogin.email;
     await dbConnect();
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-           sendMail({
-            sendTo: email,
-            subject: "Welcome back to My Portfolio",
-            html: welcome,
-          });
-      
+    await  sendMail({
+        sendTo: email,
+        subject: "Welcome back to My Portfolio",
+        html: welcome,
+      });
+
       // Update login history
       await User.updateOne(
         { email: email },
@@ -37,14 +36,13 @@ export async function POST(req:Request) {
         ...userLogin,
         loginHistory: [new Date()],
       });
-          sendMail({
-            sendTo: email,
-            subject: "Welcome to My Portfolio",
-            html: welcome,
- 
-          });
+    await  sendMail({
+        sendTo: email,
+        subject: "Welcome to My Portfolio",
+        html: welcome,
+      });
 
-      return NextResponse.json({ success: true,data: user }, { status: 201 });
+      return NextResponse.json({ success: true, data: user }, { status: 201 });
     }
   } catch (error) {
     console.error("API Error:", error);
@@ -58,19 +56,28 @@ export async function POST(req:Request) {
   }
 }
 
-export async function GET( ) {
+export async function GET() {
   const session = await auth();
-  if(!session){
-    return NextResponse.json({ success: false, message : "unauthorized" }, { status: 401 });
+  if (!session) {
+    return NextResponse.json(
+      { success: false, message: "unauthorized" },
+      { status: 401 }
+    );
   }
   await dbConnect();
   const existingUser = await User.findOne({ email: session?.user?.email });
 
   if (!existingUser) {
-    return NextResponse.json({ success: false, message : "user not found" }, { status: 404 });
+    return NextResponse.json(
+      { success: false, message: "user not found" },
+      { status: 404 }
+    );
   }
 
-  const lastSent = existingUser?.lastSent
+  const lastSent = existingUser?.lastSent;
 
-  return NextResponse.json({ success: true, data: {lastSent} }, { status: 200 });
+  return NextResponse.json(
+    { success: true, data: { lastSent } },
+    { status: 200 }
+  );
 }
