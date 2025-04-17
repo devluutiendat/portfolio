@@ -1,3 +1,4 @@
+"use client";
 import siteMetadata from "@/data/siteMetadata";
 import { Facebook, Mail, Phone } from "lucide-react";
 import Image from "next/image";

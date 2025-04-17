@@ -16,13 +16,11 @@ export async function POST(req:Request) {
     await dbConnect();
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      setTimeout(() => {
            sendMail({
             sendTo: email,
             subject: "Welcome back to My Portfolio",
             html: welcome,
           });
-      }, 1000 * 60 * 5)
       
       // Update login history
       await User.updateOne(
@@ -39,14 +37,12 @@ export async function POST(req:Request) {
         ...userLogin,
         loginHistory: [new Date()],
       });
-      setTimeout(() => {     
           sendMail({
             sendTo: email,
             subject: "Welcome to My Portfolio",
             html: welcome,
  
           });
-      }, 1000 * 60 * 5)
 
       return NextResponse.json({ success: true,data: user }, { status: 201 });
     }

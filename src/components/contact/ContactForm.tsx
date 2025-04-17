@@ -5,7 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { contact } from "@/lib/send-email";
 import { useFormStatus } from "react-dom";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { api } from "@/lib/api";
 
 interface FormState {
   success: boolean;
@@ -32,6 +33,7 @@ async function formAction(prevState: FormState, formData: FormData) {
   try {
     const data = Object.fromEntries(formData) as FormValues;
     await contact(data);
+    await api.get("/contact");
     return { success: true, error: null };
   } catch (error) {
     console.error("Failed to send contact form:", error);
@@ -56,7 +58,10 @@ function SubmitButton() {
   );
 }
 
-export default function ContactForm() {
+interface ContactFormProps {
+  onSuccess: () => void;
+}
+export default function ContactForm({ onSuccess }: ContactFormProps) {
   const [state, formActionDispatch] = useActionState(formAction, {
     success: false,
     error: null,
@@ -68,6 +73,12 @@ export default function ContactForm() {
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
   });
+
+  useEffect(() => {
+    if (state.success) {
+      onSuccess();
+    }
+  }, [state.success, onSuccess]);
 
   const inputBase =
     "w-full px-4 py-2 border-b border-cyan bg-transparent focus-visible:ring-green focus-visible:ring-2 focus-visible:outline-none transition";
