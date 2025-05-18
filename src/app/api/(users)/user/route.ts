@@ -3,7 +3,6 @@ import dbConnect from "@/lib/DBconnect";
 import User from "@/models/user";
 import { sendMail } from "@/lib/send-email";
 import welcome from "@/components/emailTemplate/Welcome";
-import { auth } from "@/lib/auth";
 
 export async function POST(req: Request) {
   try {
@@ -56,28 +55,3 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET() {
-  const session = await auth();
-  if (!session) {
-    return NextResponse.json(
-      { success: false, message: "unauthorized" },
-      { status: 401 }
-    );
-  }
-  await dbConnect();
-  const existingUser = await User.findOne({ email: session?.user?.email });
-
-  if (!existingUser) {
-    return NextResponse.json(
-      { success: false, message: "user not found" },
-      { status: 404 }
-    );
-  }
-
-  const lastSent = existingUser?.lastSent;
-
-  return NextResponse.json(
-    { success: true, data: { lastSent } },
-    { status: 200 }
-  );
-}

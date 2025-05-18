@@ -2,90 +2,55 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { contact } from "@/lib/send-email";
-import { useFormStatus } from "react-dom";
-import { useActionState, useEffect } from "react";
-import { api } from "@/lib/api";
+import { handleContact } from "@/actions/contact";
+import { formSchema, type FormValues } from "@/lib/validation/contactForm";
+import { useState } from "react";
 
-interface FormState {
-  success: boolean;
-  error: string | null;
-}
-const formSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
-  email: z.string().email({ message: "Please enter a valid email address" }),
-  phone: z
-    .string()
-    .regex(/^\+?[0-9\s\-()]{7,}$/, {
-      message: "Please enter a valid phone number",
-    })
-    .or(z.literal("")),
-  message: z
-    .string()
-    .min(10, { message: "Message must be at least 10 characters" }),
-  location: z.string(),
-});
-
-type FormValues = z.infer<typeof formSchema>;
-
-async function formAction(prevState: FormState, formData: FormData) {
-  try {
-    const data = Object.fromEntries(formData) as FormValues;
-    await contact(data);
-    await api.get("/contact");
-    return { success: true, error: null };
-  } catch (error) {
-    console.error("Failed to send contact form:", error);
-    return {
-      success: false,
-      error: "Something went wrong. Please try again later.",
-    };
-  }
-}
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <button
-      type="submit"
-      disabled={pending}
-      className="w-full bg-cyan text-white font-medium rounded-lg px-4 py-3 mt-4 hover:bg-cyan/80 transition disabled:opacity-50"
-    >
-      {pending ? "Sending..." : "Send Message"}
-    </button>
-  );
-}
-
-interface ContactFormProps {
-  onSuccess: () => void;
-}
-export default function ContactForm({ onSuccess }: ContactFormProps) {
-  const [state, formActionDispatch] = useActionState(formAction, {
-    success: false,
-    error: null,
-  });
+export default function ContactForm() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [submitResult, setSubmitResult] = useState<{
+    success: boolean;
+    message: string | null;
+  }>({ success: false, message: null });
 
   const {
     register,
+    handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
   });
 
-  useEffect(() => {
-    if (state.success) {
-      onSuccess();
+  const onSubmit = async (data: FormValues) => {
+    setIsLoading(true);
+    setSubmitResult({ success: false, message: null });
+
+    try {
+      const result = await handleContact(data);
+      setSubmitResult({
+        success: result.success,
+        message: result.success
+          ? "Message sent successfully!"
+          : result.error || "Failed to send message",
+      });
+      if (result.success) reset();
+    } catch {
+      setSubmitResult({
+        success: false,
+        message: "Something went wrong. Please try again.",
+      });
+    } finally {
+      setIsLoading(false);
     }
-  }, [state.success, onSuccess]);
+  };
 
   const inputBase =
     "w-full px-4 py-2 border-b border-cyan bg-transparent focus-visible:ring-green focus-visible:ring-2 focus-visible:outline-none transition";
 
   return (
     <form
-      action={formActionDispatch}
+      onSubmit={handleSubmit(onSubmit)}
       className="p-6 sm:p-8 space-y-6 max-w-2xl w-full shadow-lg rounded-lg dark:bg-backgroundCat border dark:border-cyan mx-auto"
     >
       <h2 className="text-2xl sm:text-3xl font-bold text-black dark:text-orange text-center">
@@ -93,7 +58,6 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
       </h2>
 
       <div className="grid gap-6 md:grid-cols-2">
-        {/* Name */}
         <div className="space-y-2">
           <label
             htmlFor="name"
@@ -103,19 +67,14 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
           </label>
           <input
             id="name"
-            aria-invalid={!!errors.name}
-            aria-describedby="name-error"
             {...register("name")}
             className={`${inputBase} ${errors.name ? "border-b-red-500" : ""}`}
           />
           {errors.name && (
-            <p id="name-error" className="text-sm text-red-500">
-              {errors.name.message}
-            </p>
+            <p className="text-sm text-red-500">{errors.name.message}</p>
           )}
         </div>
 
-        {/* Email */}
         <div className="space-y-2">
           <label
             htmlFor="email"
@@ -126,21 +85,16 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
           <input
             id="email"
             type="email"
-            aria-invalid={!!errors.email}
-            aria-describedby="email-error"
             {...register("email")}
             className={`${inputBase} ${errors.email ? "border-b-red-500" : ""}`}
           />
           {errors.email && (
-            <p id="email-error" className="text-sm text-red-500">
-              {errors.email.message}
-            </p>
+            <p className="text-sm text-red-500">{errors.email.message}</p>
           )}
         </div>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        {/* Phone */}
         <div className="space-y-2">
           <label
             htmlFor="phone"
@@ -151,19 +105,14 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
           <input
             id="phone"
             placeholder="+1234567890"
-            aria-invalid={!!errors.phone}
-            aria-describedby="phone-error"
             {...register("phone")}
             className={`${inputBase} ${errors.phone ? "border-b-red-500" : ""}`}
           />
           {errors.phone && (
-            <p id="phone-error" className="text-sm text-red-500">
-              {errors.phone.message}
-            </p>
+            <p className="text-sm text-red-500">{errors.phone.message}</p>
           )}
         </div>
 
-        {/* Location */}
         <div className="space-y-2">
           <label
             htmlFor="location"
@@ -180,7 +129,6 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
         </div>
       </div>
 
-      {/* Message */}
       <div className="space-y-2">
         <label
           htmlFor="message"
@@ -192,27 +140,30 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
           id="message"
           rows={4}
           placeholder="Your message here..."
-          aria-invalid={!!errors.message}
-          aria-describedby="message-error"
           {...register("message")}
           className={`${inputBase} ${errors.message ? "border-b-red-500" : ""}`}
         />
         {errors.message && (
-          <p id="message-error" className="text-sm text-red-500">
-            {errors.message.message}
-          </p>
+          <p className="text-sm text-red-500">{errors.message.message}</p>
         )}
       </div>
 
-      <SubmitButton />
+      <button
+        type="submit"
+        disabled={isLoading}
+        className="w-full bg-cyan text-white font-medium rounded-lg px-4 py-3 mt-4 hover:bg-cyan/80 transition disabled:opacity-50"
+      >
+        {isLoading ? "Sending..." : "Send Message"}
+      </button>
 
-      {state.success && (
-        <p className="text-green-500 text-center font-medium">
-          Message sent successfully!
+      {submitResult.message && (
+        <p
+          className={`text-center font-medium ${
+            submitResult.success ? "text-green-500" : "text-red-500"
+          }`}
+        >
+          {submitResult.message}
         </p>
-      )}
-      {state.error && (
-        <p className="text-red-500 text-center font-medium">{state.error}</p>
       )}
     </form>
   );
