@@ -16,12 +16,11 @@ export async function handleContact(formData: FormValues) {
   }
 
   try {
-    const user = await User.findOne({ email: session?.user?.email });
+    const user = await User.findOne({ email: session?.user?.email },"lastSent");
     
-    if (!user?.lastSent) {
+    if (!user) {
       return { success: false, error: "Invalid user data" };
     }
-    
     // Check if 7 days have passed since last submission
     const lastSent = new Date(user.lastSent);
     const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);

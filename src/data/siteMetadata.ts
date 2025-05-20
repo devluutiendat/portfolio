@@ -42,7 +42,7 @@
   socialBanner : '/avatar.svg',
   locale: 'en-US',
   keywords:[
-     'Web Developer',
+    'Web Developer',
     'Portfolio',
     'Next.js',
     'React',

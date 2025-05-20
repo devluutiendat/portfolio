@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function ThankYou() {
   return (
-    <div className="max-w-2xl dark:text-cyan text-black mx-auto dark:bg-backgroundCat text-center p-8 rounded-lg shadow-lg space-y-6">
+    <div className=" dark:text-cyan text-black border border-cyan dark:bg-backgroundCat text-center p-8 rounded-lg shadow-lg space-y-6">
       <p className="text-lg  max-w-xl mx-auto">
         Thank you for visiting my website! I&apos;m really happy that you took
         the time to learn more about me and what I do.

@@ -51,7 +51,7 @@ export default function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="p-6 sm:p-8 space-y-6 max-w-2xl w-full shadow-lg rounded-lg dark:bg-backgroundCat border dark:border-cyan mx-auto"
+      className="p-6 sm:p-8 space-y-6 w-full rounded-lg dark:bg-backgroundCat  mx-auto"
     >
       <h2 className="text-2xl sm:text-3xl font-bold text-black dark:text-orange text-center">
         Leave your information

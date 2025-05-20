@@ -2,6 +2,7 @@ import About from "@/components/about";
 import Header from "@/components/header";
 import Project from "@/components/project";
 import Contact from "@/components/contact";
+import Ai from "@/components/ai";
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
         <About />
         <Project />
         <Contact />
+        <Ai />
       </main>
     </div>
   );
