@@ -1,6 +1,7 @@
 
 export const information = {
     name:"luu Tien Dat",
+    author:"dat dev",
     jobTitle:"Web Developer",
     birth:"2003-11-30",
     goal: "I want to be a full-time or part-time Frontend, Backend intern or Fresher. My goal is to become a full-stack developer and work on innovative projects that make a difference in people's lives. I am constantly learning and improving my skills to achieve this goal.",

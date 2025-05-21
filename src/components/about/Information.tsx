@@ -1,19 +1,19 @@
 "use client";
-import siteMetadata from "@/data/siteMetadata";
 import { User, Goal, Phone, Wrench } from "lucide-react";
 import Link from "../ui/Link";
 import Bio from "./Bio";
+import { information } from "@/data/information";
 
 export default function Information() {
   return (
     <div className="flex flex-col space-y-4 flex-1">
       <div className="space-y-4 text-gray-700 dark:text-gray-300">
         <h1 className="text-2xl font-bold text-black dark:text-white">
-          I&apos; {siteMetadata.author} - a dedicated {siteMetadata.jobTitle}
+          I&apos; {information.author} - a dedicated {information.jobTitle}
         </h1>
         <Bio />
 
-        <p>I was born in the beautiful {siteMetadata.born}.</p>
+        <p>I was born in the beautiful {information.born}.</p>
 
         <p>I started learning to code in 2019 when I started college.</p>
 
