@@ -22,7 +22,7 @@ export function genPageMetadata({
   title,
   description = siteMetadata.description,
   keywords = [],
-  image = siteMetadata.socialBanner || '/images/social-banner.png',
+  image = siteMetadata.socialBanner || '/images/avatar.svg',
   authors = [{ name: siteMetadata.author }],
   publishedTime,
   type = 'website',
@@ -48,7 +48,7 @@ export function genPageMetadata({
     openGraph: {
       title: fullTitle,
       description,
-      url: './',
+      url: process.env.NEXT_PUBLIC_AUTH_URL,
       siteName: siteMetadata.title,
       images: [
         {
@@ -63,10 +63,10 @@ export function genPageMetadata({
       publishedTime,
     },
     twitter: {
-      card: 'summary_large_image',
+      card: 'This is my portfolio',
       title: fullTitle,
       description,
-      images: [image],
+      images: '/opengraph-image.png',
       creator: siteMetadata.socialAccounts.twitter 
         ? `@${siteMetadata.socialAccounts.twitter}` 
         : undefined,

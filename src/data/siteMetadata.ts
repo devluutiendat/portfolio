@@ -4,7 +4,7 @@ const siteMetadata = {
   headerTitle: "dat's Blog",
   description: 'My desire to practice my skills and share my acquired knowledge fuels my endeavors.',
   siteUrl: 'https://portfolio-datluu.vercel.app',
-  socialBanner: '/avatar.svg',
+  socialBanner: '/opengraph-image.png',
   locale: 'en-US',
   keywords: [
     'Web Developer',
@@ -16,7 +16,8 @@ const siteMetadata = {
     'Vietnam Developer'
   ],
   socialAccounts: {
-    twitter: 'dat'
+    twitter: 'xxx',
+    facebook: "http://facebook.com/luu.tien.at.374555",  
   }
 };
 
