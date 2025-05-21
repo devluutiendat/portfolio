@@ -1,5 +1,5 @@
 "use client";
-import siteMetadata from "@/data/siteMetadata";
+import { information } from "@/data/information";
 import { Facebook, Mail, Phone } from "lucide-react";
 import Image from "next/image";
 
@@ -18,14 +18,14 @@ export default function ThankYou() {
 
       <div className="flex justify-center gap-6 ">
         <a
-          href={`tel:+84${siteMetadata.phone}`}
+          href={`tel:+84${information.phone}`}
           className="hover:text-green transition-colors"
           aria-label="Call"
         >
           <Phone />
         </a>
         <a
-          href={`${siteMetadata.Facebook}`}
+          href={`${information.facebook}`}
           target="_blank"
           rel="noopener noreferrer"
           className="hover:text-orange transition-colors"
@@ -34,7 +34,7 @@ export default function ThankYou() {
           <Facebook />
         </a>
         <a
-          href={`mailto: ${siteMetadata.email}`}
+          href={`mailto: ${information.email}`}
           className="hover:text-pink transition-colors"
           aria-label="Email"
         >

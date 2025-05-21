@@ -1,4 +1,4 @@
-import siteMetadata from "@/data/siteMetadata";
+import { information } from "@/data/information";
 
 const welcome = `<!DOCTYPE html>
 <html lang="vi">
@@ -112,22 +112,22 @@ const welcome = `<!DOCTYPE html>
         <p>Hy vọng bạn sẽ tìm thấy điều gì đó thú vị hoặc hữu ích tại đây.</p>
       </div>
       
-      <a href=${siteMetadata.siteUrl} class="button">Truy cập Portfolio</a>
+      <a href=${information.myPortfolio} class="button">Truy cập Portfolio</a>
       
       <div class="contact-info">
         <p><strong>Thông tin liên hệ:</strong></p>
-        <p>📧 Email: <a href=${siteMetadata.email}>${siteMetadata.email}</a></p>
-        <p>📘 Facebook: <a href=${siteMetadata.Facebook}>${siteMetadata.Facebook}</a></p>
-        <p>📞 Điện thoại: ${siteMetadata.phone}</p>
+        <p>📧 Email: <a href=${information.email}>${information.email}</a></p>
+        <p>📘 Facebook: <a href=${information.facebook}>${information.facebook}</a></p>
+        <p>📞 Điện thoại: ${information.phone}</p>
       </div>
       
       <p>Trân trọng,</p>
-      <p><strong>${siteMetadata.author}</strong></p>
+      <p><strong>${information.author}</strong></p>
     </div>
     
     <!-- Footer -->
     <div class="footer">
-      <p>© 2023 ${siteMetadata.author}. Tất cả quyền được bảo lưu.</p>
+      <p>© 2023 ${information.author}. Tất cả quyền được bảo lưu.</p>
     </div>
   </div>
 </body>
