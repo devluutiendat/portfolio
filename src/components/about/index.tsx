@@ -10,9 +10,9 @@ const BongoCat = dynamic(() => import("./bongoCat"), {
 });
 const About = () => {
   return (
-    <section id="about">
+    <section id="about" className="p-4 md:p-8 lg:p-12">
       <Greeting />
-      <div className="gap-16 p-4 md:p-8 lg:p-12 flex flex-col lg:flex-row">
+      <div className="gap-16 flex flex-col lg:flex-row">
         <BongoCat />
         <Information />
       </div>

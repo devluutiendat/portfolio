@@ -17,16 +17,20 @@ export default function Information() {
 
         <p>I started learning to code in 2019 when I started college.</p>
 
-        <p>I landed my first job as a Back-end Developer in 2021.</p>
+        <p>
+          I'm a final-year IT student with hands-on experience in building
+          projects using Ts and Js.
+        </p>
 
         <p>
           I have a passion for JavaScript/Typescript and website development.
         </p>
       </div>
 
+      {/* Navigation Links */}
       <div className="grid grid-cols-2 gap-4 pt-4 sm:text-xl text-sm">
         <Link
-          href="/writings"
+          href="/#skills"
           className="flex items-center text-orange gap-2 p-3 rounded-md transition-all border border-orange hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-orange"
         >
           <Wrench className="w-5 h-5 " />
@@ -34,7 +38,7 @@ export default function Information() {
         </Link>
 
         <Link
-          href="/about"
+          href="/#about"
           className="flex items-center gap-2 text-green p-3 rounded-md transition-all border border-green hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-green"
         >
           <User className="w-5 h-5 " />
@@ -42,7 +46,7 @@ export default function Information() {
         </Link>
 
         <Link
-          href="/projects"
+          href="/#contact"
           className="flex items-center gap-2 p-3 text-cyan rounded-md transition-all border border-cyan-500  hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-cyan-700"
         >
           <Phone className="w-5 h-5 " />
@@ -50,11 +54,11 @@ export default function Information() {
         </Link>
 
         <Link
-          href="/career"
+          href="/#projects"
           className="flex items-center gap-2 p-3 text-pink rounded-md transition-all border border-pink hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-pink"
         >
           <Goal className="w-5 h-5  " />
-          <span>Goals and Roadmap</span>
+          <span>My projects</span>
         </Link>
       </div>
     </div>
