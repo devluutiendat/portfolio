@@ -18,7 +18,7 @@ export default function Information() {
         <p>I started learning to code in 2019 when I started college.</p>
 
         <p>
-          I'm a final-year IT student with hands-on experience in building
+          I &apos m a final-year IT student with hands-on experience in building
           projects using Ts and Js.
         </p>
 
